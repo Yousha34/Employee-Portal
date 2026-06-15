@@ -1,0 +1,64 @@
+@model Employee_Portal.Models.Employee
+
+@{
+    ViewData["Title"] = "Employee Created";
+}
+
+<div class="container mt-1">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm border rounded">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h2 class="mb-0">
+                        <i class="bi bi-check-circle-fill me-2"></i> Employee Created Successfully
+                    </h2>
+                </div>
+
+                <div class="card-body p-4">
+                    <p class="lead text-center mb-4">
+                        <strong>@Model.FullName</strong> has been added to the employee portal.
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="table table-borderless mb-0">
+                            <tbody>
+                                <tr>
+                                    <th class="text-muted" style="width: 30%;">Employee ID</th>
+                                    <td class="fw-semibold">@Model.Id</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted">Email</th>
+                                    <td class="fw-semibold">@Model.Email</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted">Department</th>
+                                    <td class="fw-semibold">@Model.Department?.Name</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted">Designation</th>
+                                    <td class="fw-semibold">@Model.Designation?.Name</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-muted">Employee Type</th>
+                                    <td class="fw-semibold">@Model.EmployeeType?.Name</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a class="btn btn-info btn-lg px-4 text-white" asp-action="Details" asp-route-id="@Model.Id">
+                            <i class="bi bi-eye-fill me-2"></i> View Details
+                        </a>
+                        <a class="btn btn-success btn-lg px-4" asp-action="Create">
+                            <i class="bi bi-plus-circle me-2"></i> Add Another
+                        </a>
+                        <a class="btn btn-primary btn-lg px-4" asp-action="List">
+                            <i class="bi bi-arrow-left-circle-fill me-2"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

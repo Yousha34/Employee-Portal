@@ -1,0 +1,139 @@
+﻿@model Employee_Portal.ViewModels.EmployeeListViewModel
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<div class="container mt-1">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 border rounded">
+
+                    <div class="bg-primary text-white text-center py-3 rounded mb-4 shadow-sm">
+                        <h2 class="mb-0">Employee List</h2>
+                    </div>
+
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Message"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="List" method="get" class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Search by name..." />
+                        </div>
+                        <div class="col-md-3">
+                            <select name="SelectedDepartmentId" asp-items="@(new SelectList(Model.Departments, "Id", "Name", Model.SelectedDepartmentId))" class="form-control">
+                                <option value="">All Departments</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select name="SelectedEmployeeTypeId" asp-items="@(new SelectList(Model.EmployeeTypes, "Id", "Name", Model.SelectedEmployeeTypeId))" class="form-control">
+                                <option value="">All Employee Types</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </form>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Showing @Model.Employees!.Count of @Model.Total employee(s)</span>
+                        <a class="btn btn-success" asp-action="Create">
+                            <i class="bi bi-plus-circle me-1"></i> Add Employee
+                        </a>
+                    </div>
+
+                    @if (Model.Employees!.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered align-middle">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Full Name</th>
+                                        <th>Email</th>
+                                        <th>Department</th>
+                                        <th>Designation</th>
+                                        <th>Employee Type</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var employee in Model.Employees)
+                                    {
+                                        <tr>
+                                            <td>@employee.Id</td>
+                                            <td>@employee.FullName</td>
+                                            <td>@employee.Email</td>
+                                            <td>@employee.Department?.Name</td>
+                                            <td>@employee.Designation?.Name</td>
+                                            <td>@employee.EmployeeType?.Name</td>
+                                            <td class="text-center text-nowrap">
+                                                <a class="btn btn-sm btn-info text-white" asp-action="Details" asp-route-id="@employee.Id" title="Details">
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-warning" asp-action="Update" asp-route-id="@employee.Id" title="Update">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@employee.Id" title="Delete">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @if (Model.TotalPages > 1)
+                        {
+                            <nav aria-label="Employee pagination" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+                                        <a class="page-link"
+                                           asp-action="List"
+                                           asp-route-pageNumber="@(Model.PageNumber - 1)"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-SelectedDepartmentId="@Model.SelectedDepartmentId"
+                                           asp-route-SelectedEmployeeTypeId="@Model.SelectedEmployeeTypeId">Previous</a>
+                                    </li>
+                                    @for (var i = 1; i <= Model.TotalPages; i++)
+                                    {
+                                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                            <a class="page-link"
+                                               asp-action="List"
+                                               asp-route-pageNumber="@i"
+                                               asp-route-searchTerm="@Model.SearchTerm"
+                                               asp-route-SelectedDepartmentId="@Model.SelectedDepartmentId"
+                                               asp-route-SelectedEmployeeTypeId="@Model.SelectedEmployeeTypeId">@i</a>
+                                        </li>
+                                    }
+                                    <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+                                        <a class="page-link"
+                                           asp-action="List"
+                                           asp-route-pageNumber="@(Model.PageNumber + 1)"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-SelectedDepartmentId="@Model.SelectedDepartmentId"
+                                           asp-route-SelectedEmployeeTypeId="@Model.SelectedEmployeeTypeId">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-info text-center mb-0">
+                            No employees found. <a asp-action="Create">Add the first employee</a>.
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
