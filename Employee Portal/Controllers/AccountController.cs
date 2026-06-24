@@ -4,6 +4,12 @@ using Employee_Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
+using Employee_Portal.Models;
+
+
+//USERNAME: admin
+//PASSWORD: Admin@123
+
 
 namespace Employee_Portal.Controllers
 {

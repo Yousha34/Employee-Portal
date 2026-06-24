@@ -62,19 +62,6 @@ namespace Employee_Portal.Data
                 new Designation { Id = 12, Name = "Receptionist", DepartmentId = 4 }
             );
 
-            //// Seed Admin — password is "Admin@123" hashed with BCrypt
-            //// Hash generated with: BCrypt.Net.BCrypt.HashPassword("Admin@123")
-            //modelBuilder.Entity<Admin>().HasData(
-            //    new Admin
-            //    {
-            //        Id = 1,
-            //        Username = "admin",
-            //        PasswordHash = "$2a$11$B2S7CJcmWCQdy.IW/DKjo.bAsyaqm2mek3.PHSclNG.7Fy2nkTikq",
-            //        FullName = "Portal Administrator"
-            //    }
-            //);
-
-
             modelBuilder.Entity<Admin>().HasData(
                 new Admin
                 {
